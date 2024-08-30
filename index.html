@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>音乐播放器</title>
+	<style>
+		* {
+			margin: 0px;
+			padding: 0px;
+		}
+
+		li {
+			list-style: none;
+		}
+
+		.maxbox {
+			width: 375px;
+			margin: 40px auto;
+		}
+
+		header,
+		footer {
+			width: 100%;
+			height: 40px;
+			background: rgba(255, 166, 0, 0.425);
+			text-align: center;
+			line-height: 40px;
+		}
+
+		li {
+			width: 100%;
+			height: 40px;
+			border: 1px solid red;
+			box-sizing: border-box;
+			border-top: none;
+			line-height: 40px;
+			text-indent: 20px;
+		}
+
+		#player {
+			width: 100%;
+			height: 20px;
+			margin-top: 10px;
+		}
+
+		/* 当前播放音乐的背景色 */
+		.bg {
+			background: pink;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="maxbox">
+		<header>音乐台</header>
+		<ul>
+			<li>alextbh - no space</li>
+			<li>Allday - Magic</li>
+			<li>Allday - Nothing On My Mind</li>
+			<li>KRIK,Lauv - Paris in the Rain (Remix)</li>
+			<li>keshi - right here</li>
+			<li>F-tidal night,Rhymastic </li>
+		</ul>
+		<audio src="" controls="" id="player"></audio>
+		<footer>当前正在播放的是：<span id="content"></span></footer>
+	</div>
+</body>
+
+</html>
+<script src="./jquery.min.js"></script>
+<script>
+	var num = 0, name
+	var arr = ['alextbh - no space', 'Allday - Magic', 'Allday - Nothing On My Mind', 'KRIK,Lauv - Paris in the Rain (Remix)', 'keshi - right here', 'F-tidal night,Rhymastic ']
+	$('li').click(function () {
+		$(this).addClass('bg').siblings('li').removeClass('bg')
+		$('li').each(function (key, item) {
+			if ($(item).hasClass('bg')) {
+				num = key
+				name = $(item).text()
+				console.log(name)
+			}
+		})
+		$('#player').prop('src', `./micue/mp3/${name}.mp3`)
+		$('#content').text($(this).text())
+		$('#player')[0].play()
+		$('#player')[0].onended = function () {
+			if (num > 4) {
+				num = 0
+				micues()
+			} else {
+				num++
+				micues()
+			}
+			function micues() {
+				$('#player').prop('src', `./micue/mp3/${arr[num]}.mp3`)
+				$('#content').text(`${arr[num]}`)
+				$($('li')[`${num}`]).addClass('bg').siblings('li').removeClass('bg')
+				$('#player')[0].play()
+			}
+			console.log(num)
+		}
+	})
+
+</script>
